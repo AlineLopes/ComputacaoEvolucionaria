@@ -1,0 +1,276 @@
+public void passo4(Individuo individuo) {
+
+        double foInicial = individuo.getFuncaoObjetivo();
+
+        for (int u = 0; u < individuo.getCromossomos().size() - 1; u++) {
+
+            for (int v = u + 1; v < individuo.getCromossomos().size(); v++) {
+
+                //Opera SWAP
+                Collections.swap(individuo.getCromossomos(), u, v);
+
+                //Calcular FO - Delta
+                problema.calcularFuncaoObjetivo(individuo);
+
+                //Se existe melhora
+                if (individuo.getFuncaoObjetivo() < foInicial) {
+
+                    //Encerra - first improvement
+                    return;
+
+                } else {
+
+                    Collections.swap(individuo.getCromossomos(), u, v);
+
+                }
+
+            }
+
+        }
+
+        //Retorna o valor original da FO
+        //Nao aconteceu nenhuma mudança
+        individuo.setFuncaoObjetivo(foInicial);
+
+    }
+
+    public void passo1(Individuo individuo) throws CloneNotSupportedException {
+        //CLONAR
+        Individuo aux = (Individuo) individuo.clone();
+        
+        double foInicial = individuo.getFuncaoObjetivo();
+
+        for (int u = 0; u < individuo.getCromossomos().size() - 1; u++) {
+
+            for (int v = u + 1; v < individuo.getCromossomos().size(); v++) {
+
+                
+                //Operação Remoção + Inserção 
+                individuo.getCromossomos().remove(u);
+                individuo.getCromossomos().add(v, aux.getCromossomos().get(u));
+                // individuo.getCromossomos().add(aux.getCromossomos().get(u));
+                
+             
+                //Calcular FO - Delta
+                problema.calcularFuncaoObjetivo(individuo);
+
+                //Se existe melhora
+                if (individuo.getFuncaoObjetivo() < foInicial) {
+
+                    //Encerra - first improvement
+                    return;
+
+                } else {
+
+                    individuo = (Individuo) aux.clone();
+                    //individuo.getCromossomos().remove(v);
+
+                }
+
+            }
+
+        }
+        individuo.setFuncaoObjetivo(foInicial);
+
+    }
+    
+    public void passo2(Individuo individuo){
+        
+        double foInicial = individuo.getFuncaoObjetivo();
+
+        for (int u = 0; u < individuo.getCromossomos().size() - 2; u++) {
+            int x = u + 1;
+
+            for (int v = u + 1; v < individuo.getCromossomos().size(); v++) {
+
+                
+                int valorU = individuo.getCromossomos().get(u);
+                int valorX = individuo.getCromossomos().get(x);
+                int valorV = individuo.getCromossomos().get(v);
+                
+                individuo.getCromossomos().remove(u);
+                individuo.getCromossomos().remove(x - 1);
+                
+                //Nova posição de V
+                
+                int posV = individuo.getCromossomos().indexOf(valorV);
+                individuo.getCromossomos().add(posV + 1, valorU);
+                individuo.getCromossomos().add(posV + 2, valorX);
+               
+                
+                //Calcular FO - Delta
+                problema.calcularFuncaoObjetivo(individuo);
+
+                //Se existe melhora
+                if (individuo.getFuncaoObjetivo() < foInicial) {
+
+                    //Encerra - first improvement
+                    return;
+
+                } else {
+                    
+                    // Desfazer a troca
+                    //Remove U e X
+                    
+                    int pos = individuo.getCromossomos().indexOf(valorU);
+                    individuo.getCromossomos().remove(pos);
+                    pos = individuo.getCromossomos().indexOf(valorX);
+                    individuo.getCromossomos().remove(pos);
+                    //Inserir U e X nas posições originais
+                    
+                    individuo.getCromossomos().add(u, valorU);
+                    individuo.getCromossomos().add(u + 1, valorX);
+                                     
+                }
+
+            }
+
+        }
+        individuo.setFuncaoObjetivo(foInicial);
+        
+        
+    }
+    
+    public void passo3(Individuo individuo){
+        
+        double foInicial = individuo.getFuncaoObjetivo();
+
+        for (int u = 0; u < individuo.getCromossomos().size() - 2; u++) {
+            int x = u + 1;
+
+            for (int v = u + 1; v < individuo.getCromossomos().size(); v++) {
+
+                
+                int valorU = individuo.getCromossomos().get(u);
+                int valorX = individuo.getCromossomos().get(x);
+                int valorV = individuo.getCromossomos().get(v);
+                
+                individuo.getCromossomos().remove(u);
+                individuo.getCromossomos().remove(x - 1);
+                
+                //Nova posição de V
+                
+                int posV = individuo.getCromossomos().indexOf(valorV);
+                individuo.getCromossomos().add(posV + 1, valorX);
+                individuo.getCromossomos().add(posV + 2, valorU);
+               
+                
+                //Calcular FO - Delta
+                problema.calcularFuncaoObjetivo(individuo);
+
+                //Se existe melhora
+                if (individuo.getFuncaoObjetivo() < foInicial) {
+
+                    //Encerra - first improvement
+                    return;
+
+                } else {
+                    
+                    // Desfazer a troca
+                    //Remove U e X
+                    
+                    int pos = individuo.getCromossomos().indexOf(valorU);
+                    individuo.getCromossomos().remove(pos);
+                    pos = individuo.getCromossomos().indexOf(valorX);
+                    individuo.getCromossomos().remove(pos);
+                    //Inserir U e X nas posições originais
+                    
+                    individuo.getCromossomos().add(u, valorU);
+                    individuo.getCromossomos().add(u + 1, valorX);
+                                     
+                }
+
+            }
+
+        }
+        individuo.setFuncaoObjetivo(foInicial);
+        
+        
+    }
+    
+    public void passo5(Individuo individuo){
+    
+        double foInicial = individuo.getFuncaoObjetivo();
+
+        for (int u = 0; u < individuo.getCromossomos().size() - 2; u++) {
+            int x = u + 1;
+
+            for (int v = x + 1; v < individuo.getCromossomos().size(); v++) {
+                
+                
+                int valorX = individuo.getCromossomos().get(x);
+                individuo.getCromossomos().remove(x);
+                individuo.getCromossomos().add(v, valorX);
+
+                //Opera SWAP
+                Collections.swap(individuo.getCromossomos(), u, v);
+
+                //Calcular FO - Delta
+                problema.calcularFuncaoObjetivo(individuo);
+
+                //Se existe melhora
+                if (individuo.getFuncaoObjetivo() < foInicial) {
+
+                    //Encerra - first improvement
+                    return;
+
+                } else {
+                    
+                    
+
+                    Collections.swap(individuo.getCromossomos(), u, v);
+                    int pos = individuo.getCromossomos().indexOf(valorX);
+                    individuo.getCromossomos().remove(pos);
+                    individuo.getCromossomos().add(x, valorX);
+
+                }
+
+            }
+
+        }
+
+        //Retorna o valor original da FO
+        //Nao aconteceu nenhuma mudança
+        individuo.setFuncaoObjetivo(foInicial);
+        
+        
+    }
+    
+     public void passo6(Individuo individuo) {
+
+        double foInicial = individuo.getFuncaoObjetivo();
+
+        for (int u = 0; u < individuo.getCromossomos().size() - 2; u++) {
+
+            int x = u + 1;
+            for (int v = u + 1; v < individuo.getCromossomos().size() - 1 ; v++) {
+            int y = v + 1;
+                //Opera SWAP
+                Collections.swap(individuo.getCromossomos(), u, v);
+                Collections.swap(individuo.getCromossomos(), x, y);
+
+                //Calcular FO - Delta
+                problema.calcularFuncaoObjetivo(individuo);
+
+                //Se existe melhora
+                if (individuo.getFuncaoObjetivo() < foInicial) {
+
+                    //Encerra - first improvement
+                    return;
+
+                } else {
+
+                    Collections.swap(individuo.getCromossomos(), u, v);
+                    Collections.swap(individuo.getCromossomos(), x, y);
+
+                }
+
+            }
+
+        }
+
+        //Retorna o valor original da FO
+        //Nao aconteceu nenhuma mudança
+        individuo.setFuncaoObjetivo(foInicial);
+
+    }
